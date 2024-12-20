@@ -5,7 +5,8 @@ from .views import (
     EmailVerificationView,
     FileUploadView,
     FileDownloadView,
-    FileListView
+    FileListView,
+    FileDownloadLink
 )
 
 urlpatterns = [
@@ -15,5 +16,6 @@ urlpatterns = [
     
     path('files/', FileListView.as_view(), name='file-list'),
     path('files/upload/', FileUploadView.as_view(), name='file-upload'),
+    path('download-file-link/<str:download_token>/', FileDownloadLink.as_view(), name='file-download-link'),
     path('download-file/<str:download_token>/', FileDownloadView.as_view(), name='file-download'),
 ]

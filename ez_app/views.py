@@ -179,3 +179,23 @@ class FileListView(APIView):
         except Exception as E:
             logger.error(f"file_download view: {E}")
             return Response({'message': 'server error'},status=status.HTTP_412_PRECONDITION_FAILED)
+        
+class FileDownloadLink(APIView):
+    permission_classes = [IsAuthenticated, IsClientUser]
+
+    def get(self, request, download_token):
+        try:
+            try:
+                file = File.objects.get(download_token = download_token)
+            except File.DoesNotExist as E:
+                return Response({'message':'file not found for this token.'},status=status.HTTP_404_NOT_FOUND)
+            download_url = f"/api/download-file/{file.download_token}/"
+            response = {
+                "message":"success",
+                "download_url":download_url
+            }
+            return Response(response, status=status.HTTP_200_OK)
+
+        except Exception as E:
+            logger.error(f"file_download view: {E}")
+            return Response({'message': f'server error{E}'},status=status.HTTP_412_PRECONDITION_FAILED)        

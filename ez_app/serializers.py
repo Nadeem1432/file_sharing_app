@@ -26,7 +26,6 @@ class FileSerializer(serializers.ModelSerializer):
     class Meta:
         model = File
         fields = ( 'file', 'uploaded_by', 'download_url')
-        read_only_fields = ('uploaded_by', 'download_url')
 
     def get_download_url(self, obj):
         request = self.context.get('request')
